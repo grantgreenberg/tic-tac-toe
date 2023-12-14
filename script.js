@@ -31,20 +31,29 @@ function gamePlay() {
 
     let activePlayer = player1;
 
+    const playerTurnDiv = document.querySelector('.player-turn');
+
+    const getActivePlayer = () => activePlayer;
+
     const togglePlayer = () => activePlayer == player1 ? activePlayer = player2 : activePlayer = player1;
     
     const playRound = (index) => {
 
 		if(gameBoard.placeMarker(index, activePlayer.marker)) {
-            if(checkWinner()) {
+
+            if(checkWinner() == 1) {
+                playerTurnDiv.textContent = `${activePlayer.name} Wins!`;
+                return;
+            }
+            else if(checkWinner() == 2) {
+                playerTurnDiv.textContent = `It's a tie.`;
                 return;
             }
             togglePlayer();
-            console.log(`It's ${activePlayer.name}'s turn!`);
-            console.log(gameBoard.boardState());
+            playerTurnDiv.textContent = `${activePlayer.name}'s Turn`;
         }
         else {
-            console.log('Invalid move. Please select another cell index.');
+            playerTurnDiv.textContent = `Invalid Move.`;
         }
     }
 
@@ -60,20 +69,57 @@ function gamePlay() {
         for (const combination of winningCombinations) {
             const [a, b, c] = combination;
             if (currentBoardState[a] !== '' && currentBoardState[a] === currentBoardState[b] && currentBoardState[b] === currentBoardState[c]) {
-                console.log(`${activePlayer.name} wins!`);
-                return true;
+                return 1;
             }
         }
 
         if (!currentBoardState.includes('')) {
-            console.log('It\'s a tie!');
-            return true;
+            return 2;
         }
 
         return false;
     }
 
-    return { playRound };
+    return { playRound, getActivePlayer };
 }
 
-const game = gamePlay();
+function screenController() {
+
+    const game = gamePlay();
+    const playerTurnDiv = document.querySelector('.player-turn');
+    const boardDiv = document.querySelector('.game-board');
+
+    playerTurnDiv.textContent = `Player One's Turn`;
+
+    const updateScreen = () => {
+
+        boardDiv.textContent = '';
+
+        const currentBoardState = gameBoard.boardState();
+        const activePlayer = game.getActivePlayer();
+
+        currentBoardState.forEach((element, index) => {
+            const cellButton = document.createElement('button');
+            cellButton.classList.add('cell');
+            cellButton.dataset.cell = index;
+            cellButton.textContent = element;
+            boardDiv.appendChild(cellButton);
+        });
+    }
+
+    function userInputController(event) {
+        const selectedCell = event.target.dataset.cell;
+
+        if (!selectedCell) return;
+
+        game.playRound(selectedCell);
+        
+        updateScreen();
+    }
+
+    boardDiv.addEventListener('click', userInputController);
+
+    updateScreen();
+}
+
+screenController();

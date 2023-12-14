@@ -1,0 +1,64 @@
+:root {
+    --primary-color: rgb(95, 111, 82);
+    --secondary-color: rgb(169, 179, 136);
+    --background-color: rgb(254, 250, 224);
+    --accent-color: rgb(185, 148, 112);
+    --font-family: 'Roboto', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 0;
+}
+
+.app-container {
+    background-color: var(--background-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 2rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.game-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-turn {
+    background-color: var(--secondary-color);
+    padding: 1rem;
+    font-size: 1.5rem;
+}
+
+.game-board {
+    display: grid;
+    height: 500px;
+    width: 500px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    border: 1px solid black;
+    gap: 2px;
+    padding: 2px;
+    background-color: var(--accent-color);
+}
+
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 2rem;
+    border: 1px solid grey;
+    background: lightyellow;
+    cursor: pointer;
+}
