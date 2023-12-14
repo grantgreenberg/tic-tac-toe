@@ -6,6 +6,10 @@ const gameBoard = (function() {
 
     const board = ['','','','','','','','',''];
 
+    const resetBoard = () => {
+        board.fill('');
+    }
+
     const checkEmptyCells = () => {
         return board.map((element) => element == '');
     }
@@ -20,7 +24,7 @@ const gameBoard = (function() {
 
     let boardState = () => board;
 
-    return { placeMarker, boardState }
+    return { placeMarker, boardState, resetBoard }
 
 })();
 
@@ -85,9 +89,10 @@ function gamePlay() {
 
 function screenController() {
 
-    const game = gamePlay();
+    let game = gamePlay();
     const playerTurnDiv = document.querySelector('.player-turn');
     const boardDiv = document.querySelector('.game-board');
+    const restartBtn = document.querySelector('.restart-btn');
 
     playerTurnDiv.textContent = `Player One's Turn`;
 
@@ -107,6 +112,13 @@ function screenController() {
         });
     }
 
+    const restartGame = () => {
+        gameBoard.resetBoard();
+        game = gamePlay();
+        playerTurnDiv.textContent = `Player One's Turn`;
+        updateScreen();
+    };
+
     function userInputController(event) {
         const selectedCell = event.target.dataset.cell;
 
@@ -118,6 +130,7 @@ function screenController() {
     }
 
     boardDiv.addEventListener('click', userInputController);
+    restartBtn.addEventListener('click', restartGame);
 
     updateScreen();
 }
