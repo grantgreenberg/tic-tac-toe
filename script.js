@@ -36,6 +36,9 @@ function gamePlay() {
     const playRound = (index) => {
 
 		if(gameBoard.placeMarker(index, activePlayer.marker)) {
+            if(checkWinner()) {
+                return;
+            }
             togglePlayer();
             console.log(`It's ${activePlayer.name}'s turn!`);
             console.log(gameBoard.boardState());
@@ -43,17 +46,34 @@ function gamePlay() {
         else {
             console.log('Invalid move. Please select another cell index.');
         }
+    }
 
-        checkWinner();
+    const checkWinner = () => {
+        const winningCombinations = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+
+        const currentBoardState = gameBoard.boardState();
+
+        for (const combination of winningCombinations) {
+            const [a, b, c] = combination;
+            if (currentBoardState[a] !== '' && currentBoardState[a] === currentBoardState[b] && currentBoardState[b] === currentBoardState[c]) {
+                console.log(`${activePlayer.name} wins!`);
+                return true;
+            }
+        }
+
+        if (!currentBoardState.includes('')) {
+            console.log('It\'s a tie!');
+            return true;
+        }
+
+        return false;
     }
 
     return { playRound };
 }
 
 const game = gamePlay();
-
-game.playRound(0);
-game.playRound(0);
-game.playRound(1);
-game.playRound(1);
-game.playRound(2);
