@@ -1,10 +1,13 @@
 function createPlayer(name, marker) {
-    return {name, marker};
+    return {
+        name,
+        marker
+    };
 }
 
 const gameBoard = (function() {
 
-    const board = ['','','','','','','','',''];
+    const board = ['', '', '', '', '', '', '', '', ''];
 
     const resetBoard = () => {
         board.fill('');
@@ -15,8 +18,8 @@ const gameBoard = (function() {
     }
 
     const placeMarker = (index, marker) => {
-        if(checkEmptyCells()[index]) {
-      		board[index] = marker;
+        if (checkEmptyCells()[index]) {
+            board[index] = marker;
             return true;
         }
         return false
@@ -24,7 +27,11 @@ const gameBoard = (function() {
 
     let boardState = () => board;
 
-    return { placeMarker, boardState, resetBoard }
+    return {
+        placeMarker,
+        boardState,
+        resetBoard
+    }
 
 })();
 
@@ -38,10 +45,10 @@ function gamePlay() {
     const getActivePlayer = () => activePlayer;
 
     const togglePlayer = () => activePlayer == player1 ? activePlayer = player2 : activePlayer = player1;
-    
+
     const playRound = (index) => {
 
-		if(gameBoard.placeMarker(index, activePlayer.marker)) {
+        if (gameBoard.placeMarker(index, activePlayer.marker)) {
             togglePlayer();
         }
 
@@ -49,9 +56,14 @@ function gamePlay() {
 
     const checkWinner = () => {
         const winningCombinations = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8],
-            [0, 3, 6], [1, 4, 7], [2, 5, 8],
-            [0, 4, 8], [2, 4, 6]
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
         ];
 
         const currentBoardState = gameBoard.boardState();
@@ -71,7 +83,12 @@ function gamePlay() {
         return 0;
     }
 
-    return { playRound, getActivePlayer, checkWinner, togglePlayer };
+    return {
+        playRound,
+        getActivePlayer,
+        checkWinner,
+        togglePlayer
+    };
 }
 
 function screenController() {
@@ -126,7 +143,7 @@ function screenController() {
         if (!selectedCell) return;
 
         game.playRound(selectedCell);
-        
+
         updateScreen();
     }
 

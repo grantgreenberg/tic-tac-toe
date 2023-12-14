@@ -52,6 +52,7 @@ body {
     border: 5px solid var(--accent-color);
     gap: 5px;
     background-color: var(--accent-color);
+    box-shadow: 10px 10px 10px rgb(0, 0, 0, 0.2);
 }
 
 .cell {
@@ -64,6 +65,11 @@ body {
     background: var(--background-color);
     color: var(--primary-color);
     cursor: pointer;
+    transition: 0.1s;
+}
+
+.cell:hover {
+    border: 3px solid var(--primary-color);
 }
 
 .footer {
@@ -74,12 +80,18 @@ body {
 }
 
 .restart-btn {
-    background-color: var(--primary-color);
-    color: var(--background-color);
+    background-color: var(--background-color);
+    color: var(--primary-color);
     font-size: 1.5rem;
-    padding: 5px 10px;
+    padding: 20px 40px;
     appearance: none;
     cursor: pointer;
     border-style: solid;
     border-radius: 1rem;
+    transition: 0.3s;
+}
+
+.restart-btn:hover {
+    background-color: var(--primary-color);
+    color: var(--background-color);
 }
